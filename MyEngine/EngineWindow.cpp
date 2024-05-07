@@ -13,6 +13,11 @@ EngineWindow::~EngineWindow()
 {
 }
 
+void EngineWindow::Off()
+{
+    WindowOn = false;
+}
+
 LRESULT EngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)

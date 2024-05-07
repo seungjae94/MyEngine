@@ -8,9 +8,7 @@ class EngineWindow
 {
 	friend EngineCore;
 public:
-
-protected:
-
+	void Off();
 private:
 	static HINSTANCE hInstance;
 	static bool WindowOn;

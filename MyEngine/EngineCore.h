@@ -26,10 +26,7 @@ class EngineCoreStarter;
 
 class EngineCore
 {
-public:
 	friend EngineCoreStarter;
-protected:
-
 private:
 	static void EngineStart(HINSTANCE _hInstance);
 	static void EngineUpdate();
