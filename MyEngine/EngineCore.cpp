@@ -1,5 +1,4 @@
 #include "EngineCore.h"
-#include <Windows.h>
 #include <assert.h>
 #include <crtdbg.h>
 #include "EngineWindow.h"
@@ -33,3 +32,12 @@ void EngineCore::EngineEnd()
 {
 	int a = 0;
 }
+
+class EngineCoreStarter
+{
+public:
+	EngineCoreStarter(HINSTANCE hInstance)
+	{
+		EngineCore::EngineStart(hInstance);
+	}
+};
