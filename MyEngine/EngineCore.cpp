@@ -1,6 +1,5 @@
+#include "PreCompile.h"
 #include "EngineCore.h"
-#include <assert.h>
-#include <crtdbg.h>
 #include "EngineWindow.h"
 
 EngineCore::EngineCore()

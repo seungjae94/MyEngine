@@ -1,6 +1,5 @@
+#include "PreCompile.h"
 #include "EngineWindow.h"
-#include <Windows.h>
-#include <assert.h>
 
 HINSTANCE EngineWindow::hInstance = nullptr;
 bool EngineWindow::WindowOn = true;
