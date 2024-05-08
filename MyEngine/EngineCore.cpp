@@ -72,6 +72,11 @@ void EngineCore::EngineUpdate()
 
 	// ¿ÀºêÁ§Æ® Æ½
 	CurLevel->Tick(DeltaTime);
+
+	// ·»´õ¸µ
+	DirectDevice.ClearBackBuffer();
+	// CurLevel->Render();
+	DirectDevice.Present();
 }
 
 void EngineCore::EngineEnd()

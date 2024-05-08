@@ -21,8 +21,10 @@ private:
 	ID3D11Device* Device = nullptr;
 	ID3D11DeviceContext* Context = nullptr;
 	IDXGISwapChain* SwapChain = nullptr;
+	ID3D11RenderTargetView* BackBufferRTV = nullptr;
 
 	void Init(HWND _hWnd);
-
+	void ClearBackBuffer();
+	void Present();
 };
 

@@ -10,6 +10,7 @@ EngineDirectDevice::~EngineDirectDevice()
 	Device->Release();
 	Context->Release();
 	SwapChain->Release();
+	BackBufferRTV->Release();
 }
 
 void EngineDirectDevice::Init(HWND _hWnd)
@@ -35,7 +36,7 @@ void EngineDirectDevice::Init(HWND _hWnd)
 	SwapChainDesc.OutputWindow = _hWnd;
 	SwapChainDesc.SampleDesc.Count = 1;
 	SwapChainDesc.SampleDesc.Quality = 0;
-	SwapChainDesc.SwapEffect = DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_DISCARD;
+	SwapChainDesc.SwapEffect = DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_FLIP_DISCARD;
 	SwapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 	SwapChainDesc.Windowed = TRUE;
 
@@ -68,18 +69,27 @@ void EngineDirectDevice::Init(HWND _hWnd)
 		return;
 	}
 
-	D3D11_TEXTURE2D_DESC BackBufferTextureDesc;
-	BackBufferTexture->GetDesc(&BackBufferTextureDesc);
-
-	ID3D11RenderTargetView* RTV = nullptr;
-	Result = Device->CreateRenderTargetView(BackBufferTexture, nullptr, &RTV);
-
-	float ClearColor[4];
-	ClearColor[2] = 1.0f;
-	Context->ClearRenderTargetView(RTV, ClearColor);
-
-	SwapChain->Present(0, 0);
-
+	Result = Device->CreateRenderTargetView(BackBufferTexture, nullptr, &BackBufferRTV);
 	BackBufferTexture->Release();
-	RTV->Release();
+
+	if (S_OK != Result)
+	{
+		MessageBoxAssert("백버퍼 렌더 타겟 뷰 생성에 실패했습니다.");
+		return;
+	}
+}
+
+void EngineDirectDevice::ClearBackBuffer()
+{
+	float ClearColor[4] = { 0.0f, 0.0f, 1.0f, 0.0f };
+	Context->ClearRenderTargetView(BackBufferRTV, ClearColor);
+}
+
+void EngineDirectDevice::Present()
+{
+	HRESULT Result = SwapChain->Present(0, 0);
+	if (Result != S_OK)
+	{
+		MessageBoxAssert("프레젠트에 실패했습니다.");
+	}
 }
