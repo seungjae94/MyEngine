@@ -25,15 +25,39 @@ private:
 
 	void Init(HWND _hWnd);
 	void CreateIAResources();
+	void CreateVertexShaders();
+	void CreateRasterizerStates();
+	void CreatePixelShaders();
+	void CreateInputLayout();
+
 	void ClearBackBuffer();
 	void Present();
 
 private:
+	// IA 府家胶
 	ID3D11Buffer* TriangleVertexBuffer = nullptr;
 	ID3D11Buffer* TriangleIndexBuffer = nullptr;
+	ID3D11InputLayout* TriangleInputLayout = nullptr;
 	UINT VertexSize = 0;
 	UINT VertexOffset = 0;
 	UINT IndexOffset = 0;
+
+	// VS 府家胶
+	ID3DBlob* VSCodeBlob = nullptr;
+	ID3DBlob* VSErrorBlob = nullptr;
+	ID3D11VertexShader* VertexShader = nullptr;
+
+	// RA 府家胶
+	ID3D11RasterizerState* RasterizerState = nullptr;
+
+	// PS 府家胶
+	ID3DBlob* PSCodeBlob = nullptr;
+	ID3DBlob* PSErrorBlob = nullptr;
+	ID3D11PixelShader* PixelShader = nullptr;
+
+	// OM 府家胶
+	D3D11_VIEWPORT ViewPort;
+
 	void TestRenderTriangle();
 };
 

@@ -4,6 +4,12 @@
 
 EngineDirectDevice::EngineDirectDevice()
 {
+	ViewPort.Width = 1280;
+	ViewPort.Height = 720;
+	ViewPort.TopLeftX = 0;
+	ViewPort.TopLeftY = 0;
+	ViewPort.MinDepth = 0;
+	ViewPort.MaxDepth = 1;
 }
 
 EngineDirectDevice::~EngineDirectDevice()
@@ -80,6 +86,10 @@ void EngineDirectDevice::Init(HWND _hWnd)
 	}
 
 	CreateIAResources();
+	CreateVertexShaders();
+	CreateRasterizerStates();
+	CreatePixelShaders();
+	CreateInputLayout();
 }
 
 void EngineDirectDevice::CreateIAResources()
@@ -123,6 +133,118 @@ void EngineDirectDevice::CreateIAResources()
 	}
 }
 
+void EngineDirectDevice::CreateVertexShaders()
+{
+	UINT Flag0 = D3DCOMPILE_PACK_MATRIX_ROW_MAJOR;
+	UINT Flag1 = 0;
+#ifdef _DEBUG
+	Flag0 |= D3D10_SHADER_DEBUG;
+#endif
+
+	{
+		HRESULT Result = D3DCompileFromFile(
+			L"D:/MyEngine/MyEngineShader/ShapeShader.fx",
+			nullptr,
+			D3D_COMPILE_STANDARD_FILE_INCLUDE,
+			"VSmain",
+			"vs_5_0",
+			Flag0,
+			Flag1,
+			&VSCodeBlob,
+			&VSErrorBlob
+		);
+
+		if (S_OK != Result)
+		{
+			char* ErrorMessage = reinterpret_cast<char*>(VSErrorBlob->GetBufferPointer());
+			MessageBoxAssert(ErrorMessage);
+			return;
+		}
+
+		Result = Device->CreateVertexShader(
+			VSCodeBlob->GetBufferPointer(),
+			VSCodeBlob->GetBufferSize(),
+			nullptr,
+			&VertexShader
+		);
+
+		if (S_OK != Result)
+		{
+			MessageBoxAssert("버텍스 셰이더 생성에 실패했습니다.");
+			return;
+		}
+	}
+}
+
+void EngineDirectDevice::CreateRasterizerStates()
+{
+	D3D11_RASTERIZER_DESC RasterizerDesc = {};
+	RasterizerDesc.FillMode = D3D11_FILL_SOLID;
+	RasterizerDesc.CullMode = D3D11_CULL_NONE;
+	RasterizerDesc.AntialiasedLineEnable = TRUE;
+	RasterizerDesc.DepthClipEnable = TRUE;
+
+	Device->CreateRasterizerState(&RasterizerDesc, &RasterizerState);
+}
+
+void EngineDirectDevice::CreatePixelShaders()
+{
+	UINT Flag0 = D3DCOMPILE_PACK_MATRIX_ROW_MAJOR;
+	UINT Flag1 = 0;
+#ifdef _DEBUG
+	Flag0 |= D3D10_SHADER_DEBUG;
+#endif
+
+	{
+		HRESULT Result = D3DCompileFromFile(
+			L"D:/MyEngine/MyEngineShader/ShapeShader.fx",
+			nullptr,
+			D3D_COMPILE_STANDARD_FILE_INCLUDE,
+			"PSmain",
+			"vs_5_0",
+			Flag0,
+			Flag1,
+			&PSCodeBlob,
+			&PSErrorBlob
+		);
+
+		if (S_OK != Result)
+		{
+			char* ErrorMessage = reinterpret_cast<char*>(PSErrorBlob->GetBufferPointer());
+			MessageBoxAssert(ErrorMessage);
+			return;
+		}
+
+		Result = Device->CreatePixelShader(
+			PSCodeBlob->GetBufferPointer(),
+			PSCodeBlob->GetBufferSize(),
+			nullptr,
+			&PixelShader
+		);
+
+		if (S_OK != Result)
+		{
+			MessageBoxAssert("픽셀 셰이더 생성에 실패했습니다.");
+			return;
+		}
+	}
+}
+
+void EngineDirectDevice::CreateInputLayout()
+{
+	std::vector<D3D11_INPUT_ELEMENT_DESC> InputElementDescs = {
+		/*TODO*/
+	};
+
+	Device->CreateInputLayout(
+		&InputElementDescs[0],
+		InputElementDescs.size(),
+		VSCodeBlob->GetBufferPointer(),
+		VSCodeBlob->GetBufferSize(),
+		&TriangleInputLayout
+	);
+}
+
 void EngineDirectDevice::ClearBackBuffer()
 {
 	float ClearColor[4] = { 0.0f, 0.0f, 1.0f, 0.0f };
@@ -142,4 +264,10 @@ void EngineDirectDevice::TestRenderTriangle()
 {
 	Context->IASetVertexBuffers(0, 1, &TriangleVertexBuffer, &VertexSize, &VertexOffset);
 	Context->IASetIndexBuffer(TriangleIndexBuffer, DXGI_FORMAT_R32_UINT, IndexOffset);
+	Context->IASetInputLayout(TriangleInputLayout);
+	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	Context->VSSetShader(VertexShader, nullptr, 0);
+	Context->RSSetState(RasterizerState);
+	Context->RSSetViewports(1, &ViewPort);
+	Context->PSSetShader(PixelShader, nullptr, 0);
 }
