@@ -10,7 +10,7 @@ struct VSOutput
 
 struct PSOutput
 {
-	float4 COLOR : SV_TARGET0;
+	float4 COLOR : SV_TARGET;
 };
 
 VSOutput VSmain(EngineVertex _Input)
