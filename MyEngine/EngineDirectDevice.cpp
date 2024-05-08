@@ -233,7 +233,7 @@ void EngineDirectDevice::CreatePixelShaders()
 void EngineDirectDevice::CreateInputLayout()
 {
 	std::vector<D3D11_INPUT_ELEMENT_DESC> InputElementDescs = {
-		/*TODO*/
+		{"POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT }
 	};
 
 	Device->CreateInputLayout(
