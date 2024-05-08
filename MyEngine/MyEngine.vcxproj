@@ -179,7 +179,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EngineMath.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EngineTime.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EngineVertex.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -213,7 +221,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EngineMath.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EngineTime.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EngineVertex.cpp">
       <SubType>
       </SubType>
     </ClCompile>

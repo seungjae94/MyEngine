@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "EngineDirectDevice.h"
+#include "EngineVertex.h"
 
 EngineDirectDevice::EngineDirectDevice()
 {
@@ -77,6 +78,49 @@ void EngineDirectDevice::Init(HWND _hWnd)
 		MessageBoxAssert("백버퍼 렌더 타겟 뷰 생성에 실패했습니다.");
 		return;
 	}
+
+	CreateIAResources();
+}
+
+void EngineDirectDevice::CreateIAResources()
+{
+	{
+		// 삼각형 버텍스 버퍼 생성
+		std::vector<EngineVertex> Vertices;
+		Vertices.resize(3);
+		Vertices[0].Position = { 0.0f, 1.0f, 0.0f, 1.0f };
+		Vertices[1].Position = { -0.75f, -0.5f, 0.0f, 1.0f };
+		Vertices[2].Position = { 0.75f, -0.5f, 0.0f, 1.0f };
+
+		VertexSize = sizeof(EngineVertex);
+
+		D3D11_SUBRESOURCE_DATA BufferInitialData;
+		BufferInitialData.pSysMem = &Vertices[0];
+
+		D3D11_BUFFER_DESC BufferDesc;
+		BufferDesc.Usage = D3D11_USAGE_DEFAULT;
+		BufferDesc.ByteWidth = VertexSize * Vertices.size();
+		BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		BufferDesc.CPUAccessFlags = 0;
+
+		Device->CreateBuffer(&BufferDesc, &BufferInitialData, &TriangleVertexBuffer);
+	}
+
+	{
+		// 삼각형 인덱스 버퍼 생성
+		std::vector<UINT> Indexes = { 0, 1, 2 };
+
+		D3D11_SUBRESOURCE_DATA BufferInitialData;
+		BufferInitialData.pSysMem = &Indexes[0];
+
+		D3D11_BUFFER_DESC BufferDesc;
+		BufferDesc.Usage = D3D11_USAGE_DEFAULT;
+		BufferDesc.ByteWidth = sizeof(UINT) * Indexes.size();
+		BufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+		BufferDesc.CPUAccessFlags = 0;
+
+		Device->CreateBuffer(&BufferDesc, &BufferInitialData, &TriangleIndexBuffer);
+	}
 }
 
 void EngineDirectDevice::ClearBackBuffer()
@@ -92,4 +136,10 @@ void EngineDirectDevice::Present()
 	{
 		MessageBoxAssert("프레젠트에 실패했습니다.");
 	}
+}
+
+void EngineDirectDevice::TestRenderTriangle()
+{
+	Context->IASetVertexBuffers(0, 1, &TriangleVertexBuffer, &VertexSize, &VertexOffset);
+	Context->IASetIndexBuffer(TriangleIndexBuffer, DXGI_FORMAT_R32_UINT, IndexOffset);
 }

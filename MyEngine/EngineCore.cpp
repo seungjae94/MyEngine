@@ -75,7 +75,7 @@ void EngineCore::EngineUpdate()
 
 	// 렌더링
 	DirectDevice.ClearBackBuffer();
-	// CurLevel->Render();
+	DirectDevice.TestRenderTriangle();	// 렌더링 구조 완성 후 CurLevel->Render() 로 교체
 	DirectDevice.Present();
 }
 

@@ -19,6 +19,12 @@
     <Filter Include="Direct">
       <UniqueIdentifier>{75191138-3a71-47ff-a4a6-2aae0657591b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Direct\Resouces">
+      <UniqueIdentifier>{45077257-5ed0-4233-866a-98811da1940c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{dc9aa3d9-3443-4e34-b8b6-9ed202d47c78}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineCore.h">
@@ -45,6 +51,12 @@
     <ClInclude Include="EngineDirectDevice.h">
       <Filter>Direct</Filter>
     </ClInclude>
+    <ClInclude Include="EngineVertex.h">
+      <Filter>Direct\Resouces</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineMath.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineCore.cpp">
@@ -70,6 +82,12 @@
     </ClCompile>
     <ClCompile Include="EngineDirectDevice.cpp">
       <Filter>Direct</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineVertex.cpp">
+      <Filter>Direct\Resouces</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineMath.cpp">
+      <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

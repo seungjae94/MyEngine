@@ -24,7 +24,16 @@ private:
 	ID3D11RenderTargetView* BackBufferRTV = nullptr;
 
 	void Init(HWND _hWnd);
+	void CreateIAResources();
 	void ClearBackBuffer();
 	void Present();
+
+private:
+	ID3D11Buffer* TriangleVertexBuffer = nullptr;
+	ID3D11Buffer* TriangleIndexBuffer = nullptr;
+	UINT VertexSize = 0;
+	UINT VertexOffset = 0;
+	UINT IndexOffset = 0;
+	void TestRenderTriangle();
 };
 
