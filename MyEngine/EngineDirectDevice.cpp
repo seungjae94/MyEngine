@@ -59,7 +59,7 @@ void EngineDirectDevice::Init(HWND _hWnd)
     SwapChainDesc.OutputWindow = _hWnd;
     SwapChainDesc.SampleDesc.Count = 1;
     SwapChainDesc.SampleDesc.Quality = 0;
-    SwapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+    SwapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
     SwapChainDesc.Windowed = TRUE;
 
     HRESULT Result = D3D11CreateDeviceAndSwapChain(
