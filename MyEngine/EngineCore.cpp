@@ -2,6 +2,7 @@
 #include "EngineCore.h"
 #include "EngineWindow.h"
 #include "EngineTime.h"
+#include "EngineDirectDevice.h"
 #include "Level.h"
 
 std::shared_ptr<UserCore> EngineCore::UserCoreInst = nullptr;
@@ -9,6 +10,7 @@ std::map<std::string, std::shared_ptr<Level>> EngineCore::Levels;
 std::shared_ptr<Level> EngineCore::CurLevel = nullptr;
 std::shared_ptr<Level> EngineCore::NextLevel = nullptr;
 EngineTime EngineCore::MainTimer;
+EngineDirectDevice EngineCore::DirectDevice;
 
 EngineCore::EngineCore()
 {
@@ -36,6 +38,9 @@ void EngineCore::EngineStart(HINSTANCE _hInstance)
 
 	// 윈도우 띄우기
 	EngineWindow::Open(_hInstance);
+
+	// 다이렉트 초기화
+	DirectDevice.Init(EngineWindow::hWnd);
 
 	// 유저 코어 초기화 함수 호출
 	UserCoreInst->Init();

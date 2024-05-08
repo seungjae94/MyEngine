@@ -28,6 +28,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, \
 
 class EngineCoreStarter;
 class EngineTime;
+class EngineDirectDevice;
 
 class UserCore
 {
@@ -55,6 +56,7 @@ private:
 	static std::shared_ptr<Level> CurLevel;
 	static std::shared_ptr<Level> NextLevel;
 	static EngineTime MainTimer;
+	static EngineDirectDevice DirectDevice;
 
 	static void EngineStart(HINSTANCE _hInstance);
 	static void EngineUpdate();

@@ -2,6 +2,7 @@
 #include "EngineWindow.h"
 
 HINSTANCE EngineWindow::hInstance = nullptr;
+HWND EngineWindow::hWnd = nullptr;
 bool EngineWindow::WindowOn = true;
 
 EngineWindow::EngineWindow()
@@ -54,7 +55,7 @@ void EngineWindow::Open(HINSTANCE _hInstance)
     // InitInstance
     hInstance = _hInstance;
 
-    HWND hWnd = CreateWindowA(wcex.lpszClassName, "Title", WS_OVERLAPPEDWINDOW,
+    hWnd = CreateWindowA(wcex.lpszClassName, "Title", WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
     if (!hWnd)

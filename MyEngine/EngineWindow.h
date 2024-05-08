@@ -9,6 +9,7 @@ public:
 	void Off();
 private:
 	static HINSTANCE hInstance;
+	static HWND hWnd;
 	static bool WindowOn;
 
     static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);

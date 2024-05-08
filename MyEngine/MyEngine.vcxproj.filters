@@ -16,6 +16,9 @@
     <Filter Include="Time">
       <UniqueIdentifier>{5dde8aec-0d9d-418e-b815-4a71e941917f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Direct">
+      <UniqueIdentifier>{75191138-3a71-47ff-a4a6-2aae0657591b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineCore.h">
@@ -39,6 +42,9 @@
     <ClInclude Include="EngineTime.h">
       <Filter>Time</Filter>
     </ClInclude>
+    <ClInclude Include="EngineDirectDevice.h">
+      <Filter>Direct</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineCore.cpp">
@@ -61,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="EngineTime.cpp">
       <Filter>Time</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineDirectDevice.cpp">
+      <Filter>Direct</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
