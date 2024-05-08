@@ -7,6 +7,9 @@ EngineDirectDevice::EngineDirectDevice()
 
 EngineDirectDevice::~EngineDirectDevice()
 {
+	Device->Release();
+	Context->Release();
+	SwapChain->Release();
 }
 
 void EngineDirectDevice::Init(HWND _hWnd)
@@ -35,7 +38,6 @@ void EngineDirectDevice::Init(HWND _hWnd)
 	SwapChainDesc.SwapEffect = DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_DISCARD;
 	SwapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 	SwapChainDesc.Windowed = TRUE;
-
 
 	HRESULT Result = D3D11CreateDeviceAndSwapChain(
 		nullptr,
@@ -66,9 +68,18 @@ void EngineDirectDevice::Init(HWND _hWnd)
 		return;
 	}
 
-	//D3D11_TEXTURE2D_DESC BackBufferTextureDesc;
-	//BackBufferTexture->GetDesc(&BackBufferTextureDesc);
-	//EngineCore::GetDevice()->
+	D3D11_TEXTURE2D_DESC BackBufferTextureDesc;
+	BackBufferTexture->GetDesc(&BackBufferTextureDesc);
 
+	ID3D11RenderTargetView* RTV = nullptr;
+	Result = Device->CreateRenderTargetView(BackBufferTexture, nullptr, &RTV);
 
+	float ClearColor[4];
+	ClearColor[2] = 1.0f;
+	Context->ClearRenderTargetView(RTV, ClearColor);
+
+	SwapChain->Present(0, 0);
+
+	BackBufferTexture->Release();
+	RTV->Release();
 }
