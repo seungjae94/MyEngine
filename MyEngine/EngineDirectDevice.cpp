@@ -286,12 +286,8 @@ void EngineDirectDevice::CreateInputLayout()
 
 void EngineDirectDevice::ClearBackBuffer()
 {
-    Context->OMSetRenderTargets(1, &BackBufferRTV, nullptr);
-
     float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
     Context->ClearRenderTargetView(BackBufferRTV, ClearColor);
-
-    Context->RSSetViewports(1, &ViewPort);
 }
 
 void EngineDirectDevice::Present()
@@ -311,6 +307,8 @@ void EngineDirectDevice::TestRenderTriangle()
     Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     Context->VSSetShader(VertexShader, nullptr, 0);
     Context->RSSetState(RasterizerState);
+    Context->RSSetViewports(1, &ViewPort);
     Context->PSSetShader(PixelShader, nullptr, 0);
+    Context->OMSetRenderTargets(1, &BackBufferRTV, nullptr);
     Context->DrawIndexed(3, 0, 0);
 }
