@@ -47,16 +47,14 @@ private:
 	ID3DBlob* VSErrorBlob = nullptr;
 	ID3D11VertexShader* VertexShader = nullptr;
 
-	// RA 府家胶
+	// RS 府家胶
 	ID3D11RasterizerState* RasterizerState = nullptr;
+	D3D11_VIEWPORT ViewPort;
 
 	// PS 府家胶
 	ID3DBlob* PSCodeBlob = nullptr;
 	ID3DBlob* PSErrorBlob = nullptr;
 	ID3D11PixelShader* PixelShader = nullptr;
-
-	// OM 府家胶
-	D3D11_VIEWPORT ViewPort;
 
 	void TestRenderTriangle();
 };
