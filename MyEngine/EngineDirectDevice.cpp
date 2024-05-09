@@ -45,7 +45,7 @@ void EngineDirectDevice::Init(HWND _hWnd)
 
     D3D_FEATURE_LEVEL FeatureLevels = D3D_FEATURE_LEVEL_11_0;
     D3D_FEATURE_LEVEL FeatureLevel;
-    DXGI_SWAP_CHAIN_DESC SwapChainDesc;
+    DXGI_SWAP_CHAIN_DESC SwapChainDesc = {};
     ZeroMemory(&SwapChainDesc, sizeof(DXGI_SWAP_CHAIN_DESC));
     SwapChainDesc.BufferCount = 2;	// 더블 버퍼링 사용
     SwapChainDesc.BufferDesc.Width = 1280;	// 백버퍼 너비
