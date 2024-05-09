@@ -4,12 +4,6 @@
 
 EngineDirectDevice::EngineDirectDevice()
 {
-    ViewPort.Width = 1280;
-    ViewPort.Height = 720;
-    ViewPort.TopLeftX = 0;
-    ViewPort.TopLeftY = 0;
-    ViewPort.MinDepth = 0;
-    ViewPort.MaxDepth = 1;
 }
 
 EngineDirectDevice::~EngineDirectDevice()
@@ -101,9 +95,9 @@ void EngineDirectDevice::Init(HWND _hWnd)
     }
 
     CreateIAResources();
-    CreateVertexShaders();
-    CreateRasterizerStates();
-    CreatePixelShaders();
+    CreateVSResources();
+    CreateRSResources();
+    CreatePSResources();
     CreateInputLayout();
 }
 
@@ -160,7 +154,7 @@ void EngineDirectDevice::CreateIAResources()
     }
 }
 
-void EngineDirectDevice::CreateVertexShaders()
+void EngineDirectDevice::CreateVSResources()
 {
     UINT Flag0 = D3DCOMPILE_PACK_MATRIX_ROW_MAJOR;
     UINT Flag1 = 0;
@@ -203,24 +197,36 @@ void EngineDirectDevice::CreateVertexShaders()
     }
 }
 
-void EngineDirectDevice::CreateRasterizerStates()
+void EngineDirectDevice::CreateRSResources()
 {
-    D3D11_RASTERIZER_DESC RasterizerDesc = {};
-    RasterizerDesc.FillMode = D3D11_FILL_SOLID;
-    RasterizerDesc.CullMode = D3D11_CULL_NONE;
-    RasterizerDesc.AntialiasedLineEnable = TRUE;
-    RasterizerDesc.DepthClipEnable = TRUE;
-
-    HRESULT Result = Device->CreateRasterizerState(&RasterizerDesc, &RasterizerState);
-
-    if (S_OK != Result)
     {
-        MessageBoxAssert("래스터라이저 스테이트 생성에 실패했습니다.");
-        return;
+        D3D11_RASTERIZER_DESC RasterizerDesc = {};
+        RasterizerDesc.FillMode = D3D11_FILL_SOLID;
+        RasterizerDesc.CullMode = D3D11_CULL_NONE;
+        RasterizerDesc.AntialiasedLineEnable = TRUE;
+        RasterizerDesc.DepthClipEnable = TRUE;
+
+        HRESULT Result = Device->CreateRasterizerState(&RasterizerDesc, &RasterizerState);
+
+        if (S_OK != Result)
+        {
+            MessageBoxAssert("래스터라이저 스테이트 생성에 실패했습니다.");
+            return;
+        }
+    }
+
+    {
+        // 뷰포트 초기화
+        ViewPort.Width = 1280;
+        ViewPort.Height = 720;
+        ViewPort.TopLeftX = 0;
+        ViewPort.TopLeftY = 0;
+        ViewPort.MinDepth = 0;
+        ViewPort.MaxDepth = 1;
     }
 }
 
-void EngineDirectDevice::CreatePixelShaders()
+void EngineDirectDevice::CreatePSResources()
 {
     UINT Flag0 = D3DCOMPILE_PACK_MATRIX_ROW_MAJOR;
     UINT Flag1 = 0;

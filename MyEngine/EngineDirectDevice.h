@@ -25,9 +25,9 @@ private:
 
 	void Init(HWND _hWnd);
 	void CreateIAResources();
-	void CreateVertexShaders();
-	void CreateRasterizerStates();
-	void CreatePixelShaders();
+	void CreateVSResources();
+	void CreateRSResources();
+	void CreatePSResources();
 	void CreateInputLayout();
 
 	void ClearBackBuffer();
