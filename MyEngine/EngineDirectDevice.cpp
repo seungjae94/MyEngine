@@ -113,9 +113,9 @@ void EngineDirectDevice::CreateIAResources()
         // 삼각형 버텍스 버퍼 생성
         std::vector<EngineVertex> Vertices;
         Vertices.resize(3);
-        Vertices[0].Position = { 0.0f, 1.0f, 0.0f, 1.0f };
-        Vertices[1].Position = { -0.75f, -0.75f, 0.0f, 1.0f };
-        Vertices[2].Position = { 0.75f, -0.75f, 0.0f, 1.0f };
+        Vertices[0].Position = { 0.0f, 0.5f, 0.0f, 1.0f };
+        Vertices[1].Position = { -0.5f, -0.5f, 0.0f, 1.0f };
+        Vertices[2].Position = { 0.5f, -0.5f, 0.0f, 1.0f };
 
         VertexSize = sizeof(EngineVertex);
 
