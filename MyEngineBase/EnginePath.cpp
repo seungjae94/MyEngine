@@ -4,11 +4,31 @@
 
 EnginePath::EnginePath()
 {
-	GetChildrenPathObjects();
+}
+
+EnginePath::EnginePath(std::string_view _Path)
+	: PathObject(_Path)
+{
+}
+
+EnginePath::EnginePath(std::filesystem::path _PathObject)
+	: PathObject(_PathObject)
+{
+}
+
+EnginePath::EnginePath(const EnginePath& _Other)
+	: PathObject(_Other.PathObject)
+{
 }
 
 EnginePath::~EnginePath()
 {
+}
+
+
+bool EnginePath::IsRootDirectory() const
+{
+	return PathObject == PathObject.root_path();
 }
 
 bool EnginePath::IsDirectory() const
@@ -21,14 +41,14 @@ bool EnginePath::IsFile() const
 	return !IsDirectory();
 }
 
-std::list<std::string> EnginePath::GetChildrenAbsolutePaths(std::list<std::string> _Extensions) const
+std::string EnginePath::ToString() const
 {
-	return std::list<std::string>();
+	return PathObject.string();
 }
 
-std::list<std::string> EnginePath::GetChildrenAbsolutePathsRecursive(std::list<std::string> _Extensions) const
+std::string EnginePath::GetFilename() const
 {
-	return std::list<std::string>();
+	return PathObject.filename().string();
 }
 
 void EnginePath::MoveToParentDirectory()
@@ -38,27 +58,47 @@ void EnginePath::MoveToParentDirectory()
 
 void EnginePath::MoveToChildDirectory(std::string_view _ChildDirectoryName)
 {
+	PathObject = PathObject.append(_ChildDirectoryName);
 }
 
-void EnginePath::MoveToAncestorHaving(std::string_view _TargetDirectoyName)
+void EnginePath::MoveToAncestorsChildDirectory(std::string_view _TargetDirectoyName)
 {
+	while (true)
+	{
+		std::filesystem::directory_iterator Iter{ PathObject };
+		
+		for (const std::filesystem::directory_entry& Entry : Iter)
+		{
+			if (true == Entry.is_directory() && Entry.path().filename() == _TargetDirectoyName)
+			{
+				MoveToChildDirectory(_TargetDirectoyName);
+				return;
+			}
+		}
+
+		if (true == IsRootDirectory())
+		{
+			MessageBoxAssert(std::string("루트 디렉터리까지 탐색했지만 ") + _TargetDirectoyName.data() + "을 찾을 수 없습니다.");
+		}
+
+		MoveToParentDirectory();
+	}
 }
 
-std::list<std::filesystem::path> EnginePath::GetChildrenPathObjects(std::list<std::string> _Extensions /*= {}*/) const
+std::list<EnginePath> EnginePath::GetChildren(const std::set<std::string>& _Extensions) const
 {
 	if (false == IsDirectory())
 	{
-		MessageBoxAssert("디렉터리가 아닌 경로에서 자식 경로 오브젝트를 얻으려고 했습니다.");
+		MessageBoxAssert("디렉터리가 아닌 경로에서 자식 경로를 얻으려고 했습니다.");
 		return {};
 	}
 
-	bool AllExtensionFindMode = _Extensions.empty();
-
-	std::list<std::filesystem::path> PathObjects;
-	std::filesystem::directory_iterator Iter(PathObject);
+	std::list<EnginePath> Children;
+	std::filesystem::directory_iterator Iter{ PathObject };
 
 	for (std::filesystem::directory_entry Entry : Iter)
 	{
+		std::string FileName = Entry.path().filename().string();
 		if (true == Entry.is_directory())
 		{
 			continue;
@@ -66,12 +106,43 @@ std::list<std::filesystem::path> EnginePath::GetChildrenPathObjects(std::list<st
 
 		std::string Ext = Entry.path().extension().string();
 
-		if (true == AllExtensionFindMode)
+		if (true == _Extensions.contains(Ext))
 		{
-
+			Children.push_back(Entry.path());
 		}
 	}
 
+	return Children;
+}
 
-	return std::list<std::filesystem::path>();
+std::list<EnginePath> EnginePath::GetChildrenRecursive(const std::set<std::string>& _Extensions) const
+{
+	if (false == IsDirectory())
+	{
+		MessageBoxAssert("디렉터리가 아닌 경로에서 자식 경로를 얻으려고 했습니다.");
+		return {};
+	}
+
+	std::list<EnginePath> Children;
+	std::filesystem::directory_iterator Iter(PathObject);
+
+	for (std::filesystem::directory_entry Entry : Iter)
+	{
+		if (true == Entry.is_directory())
+		{
+			EnginePath ChildDirectory = Entry.path();
+			std::list<EnginePath>&& NewChildren = ChildDirectory.GetChildrenRecursive(_Extensions);
+			Children.insert(Children.end(), NewChildren.begin(), NewChildren.end());
+			continue;
+		}
+
+		std::string Ext = Entry.path().extension().string();
+
+		if (true == _Extensions.contains(Ext))
+		{
+			Children.push_back(Entry.path());
+		}
+	}
+
+	return Children;
 }

@@ -164,11 +164,16 @@ void EngineDirectDevice::CreateVSResources()
     Flag0 |= D3D10_SHADER_DEBUG;
 #endif
 
+    EnginePath AppPath;
+    AppPath.MoveToAncestorsChildDirectory("MyEngineShader");
+    std::list<EnginePath> ShaderPaths = AppPath.GetChildren({ ".fx" });
+
+    for (EnginePath& ShaderPath : ShaderPaths)
     {
-        EnginePath Path;
+        std::string ShaderPathString = ShaderPath.ToString();
 
         HRESULT Result = D3DCompileFromFile(
-            L"D:/MyEngine/MyEngineShader/ShapeShader.fx",
+            EngineString::StringToWString(ShaderPathString).c_str(),
             nullptr,
             D3D_COMPILE_STANDARD_FILE_INCLUDE,
             "VSmain",
@@ -238,9 +243,16 @@ void EngineDirectDevice::CreatePSResources()
     Flag0 |= D3D10_SHADER_DEBUG;
 #endif
 
+    EnginePath AppPath;
+    AppPath.MoveToAncestorsChildDirectory("MyEngineShader");
+    std::list<EnginePath> ShaderPaths = AppPath.GetChildren({ ".fx" });
+
+    for (EnginePath& ShaderPath : ShaderPaths) 
     {
+        std::string ShaderPathString = ShaderPath.ToString();
+
         HRESULT Result = D3DCompileFromFile(
-            L"D:/MyEngine/MyEngineShader/ShapeShader.fx",
+            EngineString::StringToWString(ShaderPathString).c_str(),
             nullptr,
             D3D_COMPILE_STANDARD_FILE_INCLUDE,
             "PSmain",

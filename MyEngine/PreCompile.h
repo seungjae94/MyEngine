@@ -11,3 +11,4 @@
 #include <MyEngineBase/EngineDebug.h>
 #include <MyEngineBase/EngineMath.h>
 #include <MyEngineBase/EnginePath.h>
+#include <MyEngineBase/EngineString.h>

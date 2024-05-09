@@ -13,6 +13,9 @@
     <Filter Include="_PreCompile">
       <UniqueIdentifier>{44ba24ec-92c9-4bc1-adc2-b470aaf66d3d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="String">
+      <UniqueIdentifier>{c7ff766e-fd09-482a-8c0d-b5f4f998464c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineMath.cpp">
@@ -27,6 +30,9 @@
     <ClCompile Include="EnginePath.cpp">
       <Filter>Path</Filter>
     </ClCompile>
+    <ClCompile Include="EngineString.cpp">
+      <Filter>String</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineMath.h">
@@ -40,6 +46,9 @@
     </ClInclude>
     <ClInclude Include="EnginePath.h">
       <Filter>Path</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineString.h">
+      <Filter>String</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
