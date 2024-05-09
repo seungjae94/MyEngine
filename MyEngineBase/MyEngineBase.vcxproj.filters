@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Path">
+      <UniqueIdentifier>{181bc1db-68a1-43f3-9141-db97b72b21e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{eb3d79d4-aeca-4adc-ae2c-373617357ea1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{22ee77c7-661f-4701-a52a-b1072aa58a35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_PreCompile">
+      <UniqueIdentifier>{44ba24ec-92c9-4bc1-adc2-b470aaf66d3d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="EngineMath.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineDebug.cpp">
+      <Filter>Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="PreCompile.cpp">
+      <Filter>_PreCompile</Filter>
+    </ClCompile>
+    <ClCompile Include="EnginePath.cpp">
+      <Filter>Path</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EngineMath.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDebug.h">
+      <Filter>Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="PreCompile.h">
+      <Filter>_PreCompile</Filter>
+    </ClInclude>
+    <ClInclude Include="EnginePath.h">
+      <Filter>Path</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

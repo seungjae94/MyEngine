@@ -4,3 +4,5 @@
 #pragma comment(lib, "d3dcompiler")
 #pragma comment(lib, "dxguid")
 #pragma comment(lib, "DXGI")
+
+#pragma comment(lib, "MyEngineBase.lib")

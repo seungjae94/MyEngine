@@ -165,6 +165,8 @@ void EngineDirectDevice::CreateVSResources()
 #endif
 
     {
+        EnginePath Path;
+
         HRESULT Result = D3DCompileFromFile(
             L"D:/MyEngine/MyEngineShader/ShapeShader.fx",
             nullptr,
