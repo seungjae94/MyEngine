@@ -28,7 +28,7 @@ private:
 	void CreateVSResources();
 	void CreateRSResources();
 	void CreatePSResources();
-	void CreateInputLayout();
+	void CreateInputLayouts();
 
 	void ClearBackBuffer();
 	void Present();
