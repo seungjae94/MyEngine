@@ -294,7 +294,7 @@ void EngineDirectDevice::CreateInputLayouts()
 
 void EngineDirectDevice::ClearBackBuffer()
 {
-    float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+    float ClearColor[4] = { 0.0f, 0.0f, 1.0f, 0.0f };
     Context->ClearRenderTargetView(BackBufferRTV, ClearColor);
 }
 
