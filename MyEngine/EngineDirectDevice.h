@@ -35,9 +35,9 @@ private:
 
 private:
 	// IA ¸®¼Ò½º
-	ID3D11Buffer* TriangleVertexBuffer = nullptr;
-	ID3D11Buffer* TriangleIndexBuffer = nullptr;
-	ID3D11InputLayout* TriangleInputLayout = nullptr;
+	ID3D11Buffer* VertexBuffer = nullptr;
+	ID3D11Buffer* IndexBuffer = nullptr;
+	ID3D11InputLayout* InputLayout = nullptr;
 	UINT VertexSize = 0;
 	UINT VertexOffset = 0;
 	UINT IndexCount = 0;
@@ -56,6 +56,12 @@ private:
 	ID3DBlob* PSCodeBlob = nullptr;
 	ID3DBlob* PSErrorBlob = nullptr;
 	ID3D11PixelShader* PixelShader = nullptr;
+
+	ID3D11Texture2D* Texture = nullptr;
+	ID3D11ShaderResourceView* TextureSRV = nullptr;
+
+	ID3D11SamplerState* SamplerState = nullptr;
+	ID3D11ShaderResourceView* SamplerStateSRV = nullptr;
 
 	void TestRenderTriangle();
 };

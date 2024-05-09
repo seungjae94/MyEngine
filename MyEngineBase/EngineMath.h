@@ -1,5 +1,20 @@
 #pragma once
 
+union float2
+{
+	struct
+	{
+		float x;
+		float y;
+	};
+
+	struct
+	{
+		float u;
+		float v;
+	};
+};
+
 union float4
 {
 	struct

@@ -9,5 +9,8 @@
     <FxCompile Include="ShapeShader.fx">
       <Filter>Code</Filter>
     </FxCompile>
+    <FxCompile Include="ImageShader.fx">
+      <Filter>Code</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
