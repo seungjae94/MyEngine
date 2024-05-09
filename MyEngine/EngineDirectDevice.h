@@ -40,6 +40,7 @@ private:
 	ID3D11InputLayout* TriangleInputLayout = nullptr;
 	UINT VertexSize = 0;
 	UINT VertexOffset = 0;
+	UINT IndexCount = 0;
 	UINT IndexOffset = 0;
 
 	// VS ¸®¼Ò½º

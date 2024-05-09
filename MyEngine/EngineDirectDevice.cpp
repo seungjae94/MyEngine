@@ -135,6 +135,8 @@ void EngineDirectDevice::CreateIAResources()
         // 삼각형 인덱스 버퍼 생성
         std::vector<UINT> Indexes = { 0, 1, 2 };
 
+        IndexCount = Indexes.size();
+
         D3D11_SUBRESOURCE_DATA BufferInitialData;
         BufferInitialData.pSysMem = &Indexes[0];
 
@@ -316,5 +318,5 @@ void EngineDirectDevice::TestRenderTriangle()
     Context->RSSetViewports(1, &ViewPort);
     Context->PSSetShader(PixelShader, nullptr, 0);
     Context->OMSetRenderTargets(1, &BackBufferRTV, nullptr);
-    Context->DrawIndexed(3, 0, 0);
+    Context->DrawIndexed(IndexCount, 0, 0);
 }
