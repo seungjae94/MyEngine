@@ -32,6 +32,11 @@ union float4
 		float b;
 		float a;
 	};
+
+	float arr[4];
+
+public:
+	static float4 Zero;
 };
 
 class EngineMath

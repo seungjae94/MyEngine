@@ -30,6 +30,7 @@ EngineDirectDevice::~EngineDirectDevice()
 	PixelShader->Release();
 	TextureSRV->Release();
 	SamplerState->Release();
+	BlendState->Release();
 }
 
 void EngineDirectDevice::Init(HWND _hWnd)
@@ -100,6 +101,7 @@ void EngineDirectDevice::Init(HWND _hWnd)
 	CreateVSResources();
 	CreateRSResources();
 	CreatePSResources();
+	CreateOMResources();
 	CreateInputLayouts();
 }
 
@@ -364,6 +366,32 @@ void EngineDirectDevice::CreatePSResources()
 	}
 }
 
+void EngineDirectDevice::CreateOMResources()
+{
+	{
+		D3D11_BLEND_DESC Desc = {};
+		Desc.AlphaToCoverageEnable = false;
+		Desc.IndependentBlendEnable = false;
+		Desc.RenderTarget[0].BlendEnable = true;
+		Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+		// RGB = SrcRGB * SrcBlend (BlendOp) DestRGB * DestBlend;
+		// Alpha = SrcAlpha * SrcBlendAlpha (BlendOpAlpha) DestAlpha  * DestBlendAlpha
+
+		// RGB = SrcRGB * (1 - SrcAlpha) + DestRGB * Alpha
+		Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+		Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+		Desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+
+		// Alpha = SrcAlpha * 1 (BlendOpAlpha) DestAlpha  * 1
+		Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+		Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+		Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+
+		HRESULT Result = Device->CreateBlendState(&Desc, &BlendState);
+	}
+}
+
 void EngineDirectDevice::CreateInputLayouts()
 {
 	std::vector<D3D11_INPUT_ELEMENT_DESC> InputElementDescs = {
@@ -411,10 +439,9 @@ void EngineDirectDevice::TestRenderImage()
 	Context->RSSetState(RasterizerState);
 	Context->RSSetViewports(1, &ViewPort);
 	Context->PSSetShader(PixelShader, nullptr, 0);
-
 	Context->PSSetShaderResources(0, 1, &TextureSRV);
 	Context->PSSetSamplers(0, 1, &SamplerState);
-
+	Context->OMSetBlendState(BlendState, float4::Zero.arr, 0xFFFFFFFF);
 	Context->OMSetRenderTargets(1, &BackBufferRTV, nullptr);
 	Context->DrawIndexed(IndexCount, 0, 0);
 }

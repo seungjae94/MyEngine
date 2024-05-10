@@ -28,6 +28,7 @@ private:
 	void CreateVSResources();
 	void CreateRSResources();
 	void CreatePSResources();
+	void CreateOMResources();
 	void CreateInputLayouts();
 
 	void ClearBackBuffer();
@@ -56,10 +57,11 @@ private:
 	ID3DBlob* PSCodeBlob = nullptr;
 	ID3DBlob* PSErrorBlob = nullptr;
 	ID3D11PixelShader* PixelShader = nullptr;
-
 	ID3D11ShaderResourceView* TextureSRV = nullptr;
-
 	ID3D11SamplerState* SamplerState = nullptr;
+
+	// OM ¸®¼Ò½º
+	ID3D11BlendState* BlendState = nullptr;
 
 	void TestRenderImage();
 };
