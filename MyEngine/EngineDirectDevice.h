@@ -57,12 +57,10 @@ private:
 	ID3DBlob* PSErrorBlob = nullptr;
 	ID3D11PixelShader* PixelShader = nullptr;
 
-	ID3D11Texture2D* Texture = nullptr;
 	ID3D11ShaderResourceView* TextureSRV = nullptr;
 
 	ID3D11SamplerState* SamplerState = nullptr;
-	ID3D11ShaderResourceView* SamplerStateSRV = nullptr;
 
-	void TestRenderTriangle();
+	void TestRenderImage();
 };
 

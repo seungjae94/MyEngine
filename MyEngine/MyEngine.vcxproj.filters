@@ -13,9 +13,6 @@
     <Filter Include="Direct">
       <UniqueIdentifier>{75191138-3a71-47ff-a4a6-2aae0657591b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Direct\Resouces">
-      <UniqueIdentifier>{45077257-5ed0-4233-866a-98811da1940c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="_PreCompile">
       <UniqueIdentifier>{89b9af32-ede1-4b3b-bcdb-94d40a6aece5}</UniqueIdentifier>
     </Filter>
@@ -33,6 +30,9 @@
     </Filter>
     <Filter Include="_External\DirectXTex\Debug">
       <UniqueIdentifier>{42995bd1-8656-48d9-a3b3-6b3aa79dc1e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Direct\Resources">
+      <UniqueIdentifier>{45077257-5ed0-4233-866a-98811da1940c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -58,7 +58,7 @@
       <Filter>Direct</Filter>
     </ClInclude>
     <ClInclude Include="EngineVertex.h">
-      <Filter>Direct\Resouces</Filter>
+      <Filter>Direct\Resources</Filter>
     </ClInclude>
     <ClInclude Include="External\DirectXTex\Header\DirectXTex.h">
       <Filter>_External\DirectXTex\Header</Filter>
@@ -87,7 +87,7 @@
       <Filter>Direct</Filter>
     </ClCompile>
     <ClCompile Include="EngineVertex.cpp">
-      <Filter>Direct\Resouces</Filter>
+      <Filter>Direct\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

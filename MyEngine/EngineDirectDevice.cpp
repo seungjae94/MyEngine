@@ -28,6 +28,8 @@ EngineDirectDevice::~EngineDirectDevice()
 		PSErrorBlob->Release();
 	}
 	PixelShader->Release();
+	TextureSRV->Release();
+	SamplerState->Release();
 }
 
 void EngineDirectDevice::Init(HWND _hWnd)
@@ -138,7 +140,7 @@ void EngineDirectDevice::CreateIAResources()
 
 	{
 		// 사각형 인덱스 버퍼 생성
-		std::vector<UINT> Indexes = { 0, 1, 2, 2, 3, 0 };
+		std::vector<UINT> Indexes = { 0, 1, 2, 0, 2, 3 };
 
 		IndexCount = Indexes.size();
 
@@ -247,85 +249,118 @@ void EngineDirectDevice::CreateRSResources()
 
 void EngineDirectDevice::CreatePSResources()
 {
-	UINT Flag0 = D3DCOMPILE_PACK_MATRIX_ROW_MAJOR;
-	UINT Flag1 = 0;
+	// 픽셀 셰이더 생성
+	{
+		UINT Flag0 = D3DCOMPILE_PACK_MATRIX_ROW_MAJOR;
+		UINT Flag1 = 0;
 #ifdef _DEBUG
-	Flag0 |= D3D10_SHADER_DEBUG;
+		Flag0 |= D3D10_SHADER_DEBUG;
 #endif
 
-	EnginePath AppPath;
-	AppPath.MoveToAncestorsChildDirectory("MyEngineShader");
-	std::list<EnginePath> ShaderPaths = AppPath.GetChildren({ ".fx" });
+		EnginePath AppPath;
+		AppPath.MoveToAncestorsChildDirectory("MyEngineShader");
+		std::list<EnginePath> ShaderPaths = AppPath.GetChildren({ ".fx" });
 
-	for (EnginePath& ShaderPath : ShaderPaths)
+		for (EnginePath& ShaderPath : ShaderPaths)
+		{
+			if ("ShapeShader.fx" == ShaderPath.GetFilename())
+			{
+				continue;
+			}
+
+			std::string ShaderPathString = ShaderPath.ToString();
+
+			HRESULT Result = D3DCompileFromFile(
+				EngineString::StringToWString(ShaderPathString).c_str(),
+				nullptr,
+				D3D_COMPILE_STANDARD_FILE_INCLUDE,
+				"PSmain",
+				"ps_5_0",
+				Flag0,
+				Flag1,
+				&PSCodeBlob,
+				&PSErrorBlob
+			);
+
+			if (S_OK != Result)
+			{
+				char* ErrorMessage = reinterpret_cast<char*>(PSErrorBlob->GetBufferPointer());
+				MessageBoxAssert(ErrorMessage);
+				return;
+			}
+
+			Result = Device->CreatePixelShader(
+				PSCodeBlob->GetBufferPointer(),
+				PSCodeBlob->GetBufferSize(),
+				nullptr,
+				&PixelShader
+			);
+
+			if (S_OK != Result)
+			{
+				MessageBoxAssert("픽셀 셰이더 생성에 실패했습니다.");
+				return;
+			}
+		}
+	}
+
+	// 텍스쳐 생성
 	{
-		if ("ShapeShader.fx" == ShaderPath.GetFilename())
+		EnginePath AppPath;
+		AppPath.MoveToAncestorsChildDirectory("MyEngineResources");
+		AppPath.MoveToChildDirectory("Image");
+		std::list<EnginePath> ImagePaths = AppPath.GetChildren({ ".png" });
+
+		for (EnginePath& ImagePath : ImagePaths)
 		{
-			continue;
+			std::string ImagePathString = ImagePath.ToString();
+			DirectX::ScratchImage Image;
+			DirectX::TexMetadata Metadata;
+
+			HRESULT Result = DirectX::LoadFromWICFile(EngineString::StringToWString(ImagePathString).c_str(), DirectX::WIC_FLAGS_NONE, &Metadata, Image);
+
+			if (S_OK != Result)
+			{
+				MessageBoxAssert("이미지 로드에 실패했습니다.");
+				return;
+			};
+
+			Result = DirectX::CreateShaderResourceView(
+				Device,
+				Image.GetImages(),
+				Image.GetImageCount(),
+				Image.GetMetadata(),
+				&TextureSRV
+			);
+
+			if (S_OK != Result)
+			{
+				MessageBoxAssert("텍스쳐 셰이더 리소스 뷰 생성에 실패했습니다.");
+				return;
+			}
+
+			break;
 		}
+	}
 
-		std::string ShaderPathString = ShaderPath.ToString();
+	// 샘플러 스테이트 생성
+	{
+		D3D11_SAMPLER_DESC Desc = {};
+		Desc.AddressW = Desc.AddressV = Desc.AddressU = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+		Desc.Filter = D3D11_FILTER::D3D11_FILTER_MIN_MAG_MIP_POINT;
+		Desc.MipLODBias = 0.0f;
+		Desc.MaxAnisotropy = 1;
+		Desc.ComparisonFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_ALWAYS;
+		Desc.MinLOD = -FLT_MAX;
+		Desc.MaxLOD = FLT_MAX;
 
-		HRESULT Result = D3DCompileFromFile(
-			EngineString::StringToWString(ShaderPathString).c_str(),
-			nullptr,
-			D3D_COMPILE_STANDARD_FILE_INCLUDE,
-			"PSmain",
-			"ps_5_0",
-			Flag0,
-			Flag1,
-			&PSCodeBlob,
-			&PSErrorBlob
-		);
-
+		HRESULT Result = Device->CreateSamplerState(&Desc, &SamplerState);
+		
 		if (S_OK != Result)
 		{
-			char* ErrorMessage = reinterpret_cast<char*>(PSErrorBlob->GetBufferPointer());
-			MessageBoxAssert(ErrorMessage);
+			MessageBoxAssert("샘플러 스테이트 생성에 실패했습니다.");
 			return;
 		}
-
-		Result = Device->CreatePixelShader(
-			PSCodeBlob->GetBufferPointer(),
-			PSCodeBlob->GetBufferSize(),
-			nullptr,
-			&PixelShader
-		);
-
-		if (S_OK != Result)
-		{
-			MessageBoxAssert("픽셀 셰이더 생성에 실패했습니다.");
-			return;
-		}
-
-		/*D3D11_TEXTURE2D_DESC TextureDesc = {};
-
-		D3D11_SUBRESOURCE_DATA TextureInitialData = {};
-
-		std::string ImagePathString = "D:/MyEngine/MyResources/Test.png";
-		DirectX::ScratchImage Image;
-		DirectX::TexMetadata Metadata;
-
-		HRESULT Result = DirectX::LoadFromWICFile(EngineString::StringToWString(ImagePathString), DirectX::WIC_FLAGS_NONE, &Metadata, Image);
-		if (S_OK != Result)
-		{
-			MessageBoxAssert("이미지 로드에 실패했습니다.");
-			return;
-		};
-
-		Result = DirectX::CreateShaderResourceView(
-			Device,
-			Image.GetImages(),
-			Image.GetImageCount(),
-			Image.GetMetadata(),
-			&TextureSRV
-		);
-
-		if (S_OK != Result)
-		{
-			MessageBoxAssert("텍스쳐 셰이더 리소스 뷰 생성에 실패했습니다.");
-			return;
-		}*/
 	}
 }
 
@@ -333,7 +368,7 @@ void EngineDirectDevice::CreateInputLayouts()
 {
 	std::vector<D3D11_INPUT_ELEMENT_DESC> InputElementDescs = {
 		{"POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{"TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+		{"TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0, 16, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 	};
 
 	HRESULT Result = Device->CreateInputLayout(
@@ -366,7 +401,7 @@ void EngineDirectDevice::Present()
 	}
 }
 
-void EngineDirectDevice::TestRenderTriangle()
+void EngineDirectDevice::TestRenderImage()
 {
 	Context->IASetVertexBuffers(0, 1, &VertexBuffer, &VertexSize, &VertexOffset);
 	Context->IASetIndexBuffer(IndexBuffer, DXGI_FORMAT_R32_UINT, IndexOffset);
@@ -377,8 +412,8 @@ void EngineDirectDevice::TestRenderTriangle()
 	Context->RSSetViewports(1, &ViewPort);
 	Context->PSSetShader(PixelShader, nullptr, 0);
 
-	//Context->PSSetShaderResources(0, );
-	//Context->PSSetSamplers(0, );
+	Context->PSSetShaderResources(0, 1, &TextureSRV);
+	Context->PSSetSamplers(0, 1, &SamplerState);
 
 	Context->OMSetRenderTargets(1, &BackBufferRTV, nullptr);
 	Context->DrawIndexed(IndexCount, 0, 0);
