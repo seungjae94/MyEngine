@@ -28,7 +28,7 @@ EngineDirectDevice::~EngineDirectDevice()
 		PSErrorBlob->Release();
 	}
 	PixelShader->Release();
-	TextureSRV->Release();
+	CharacterTextureSRV->Release();
 	SamplerState->Release();
 	BlendState->Release();
 }
@@ -327,6 +327,7 @@ void EngineDirectDevice::CreatePSResources()
 				return;
 			};
 
+			ID3D11ShaderResourceView* TextureSRV = nullptr;
 			Result = DirectX::CreateShaderResourceView(
 				Device,
 				Image.GetImages(),
@@ -341,7 +342,19 @@ void EngineDirectDevice::CreatePSResources()
 				return;
 			}
 
-			break;
+
+			if ("TestCharacter.png" == ImagePath.GetFilename())
+			{
+				CharacterTextureSRV = TextureSRV;
+			}
+			else if ("TestMonster.png" == ImagePath.GetFilename())
+			{
+				MonsterTextureSRV = TextureSRV;
+			}
+			else
+			{
+				continue;
+			}
 		}
 	}
 
@@ -429,7 +442,7 @@ void EngineDirectDevice::Present()
 	}
 }
 
-void EngineDirectDevice::TestRenderImage()
+void EngineDirectDevice::TestRenderCharacter()
 {
 	Context->IASetVertexBuffers(0, 1, &VertexBuffer, &VertexSize, &VertexOffset);
 	Context->IASetIndexBuffer(IndexBuffer, DXGI_FORMAT_R32_UINT, IndexOffset);
@@ -439,7 +452,24 @@ void EngineDirectDevice::TestRenderImage()
 	Context->RSSetState(RasterizerState);
 	Context->RSSetViewports(1, &ViewPort);
 	Context->PSSetShader(PixelShader, nullptr, 0);
-	Context->PSSetShaderResources(0, 1, &TextureSRV);
+	Context->PSSetShaderResources(0, 1, &CharacterTextureSRV);
+	Context->PSSetSamplers(0, 1, &SamplerState);
+	Context->OMSetBlendState(BlendState, float4::Zero.arr, 0xFFFFFFFF);
+	Context->OMSetRenderTargets(1, &BackBufferRTV, nullptr);
+	Context->DrawIndexed(IndexCount, 0, 0);
+}
+
+void EngineDirectDevice::TestRenderMonster()
+{
+	Context->IASetVertexBuffers(0, 1, &VertexBuffer, &VertexSize, &VertexOffset);
+	Context->IASetIndexBuffer(IndexBuffer, DXGI_FORMAT_R32_UINT, IndexOffset);
+	Context->IASetInputLayout(InputLayout);
+	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	Context->VSSetShader(VertexShader, nullptr, 0);
+	Context->RSSetState(RasterizerState);
+	Context->RSSetViewports(1, &ViewPort);
+	Context->PSSetShader(PixelShader, nullptr, 0);
+	Context->PSSetShaderResources(0, 1, &MonsterTextureSRV);
 	Context->PSSetSamplers(0, 1, &SamplerState);
 	Context->OMSetBlendState(BlendState, float4::Zero.arr, 0xFFFFFFFF);
 	Context->OMSetRenderTargets(1, &BackBufferRTV, nullptr);
