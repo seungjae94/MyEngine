@@ -19,6 +19,21 @@
     <Filter Include="_PreCompile">
       <UniqueIdentifier>{89b9af32-ede1-4b3b-bcdb-94d40a6aece5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="_External">
+      <UniqueIdentifier>{c2f0caf2-d8e3-4fbf-ac2e-4dd74696c30a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_External\DirectXTex">
+      <UniqueIdentifier>{7a321407-c44b-4797-9a52-4ade85095b44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_External\DirectXTex\Release">
+      <UniqueIdentifier>{54437844-1ddc-42cf-8dd4-6f715e1c6f71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_External\DirectXTex\Header">
+      <UniqueIdentifier>{3fbb31e2-b296-418d-9f66-2293addc8e70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_External\DirectXTex\Debug">
+      <UniqueIdentifier>{42995bd1-8656-48d9-a3b3-6b3aa79dc1e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineCore.h">
@@ -44,6 +59,9 @@
     </ClInclude>
     <ClInclude Include="EngineVertex.h">
       <Filter>Direct\Resouces</Filter>
+    </ClInclude>
+    <ClInclude Include="External\DirectXTex\Header\DirectXTex.h">
+      <Filter>_External\DirectXTex\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -71,5 +89,24 @@
     <ClCompile Include="EngineVertex.cpp">
       <Filter>Direct\Resouces</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="External\DirectXTex\Header\DirectXTex.inl">
+      <Filter>_External\DirectXTex\Header</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="External\DirectXTex\Debug\DirectXTex.lib">
+      <Filter>_External\DirectXTex\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="External\DirectXTex\Debug\DirectXTex.pdb">
+      <Filter>_External\DirectXTex\Debug</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="External\DirectXTex\Release\DirectXTex.lib">
+      <Filter>_External\DirectXTex\Release</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="External\DirectXTex\Release\DirectXTex.pdb">
+      <Filter>_External\DirectXTex\Release</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

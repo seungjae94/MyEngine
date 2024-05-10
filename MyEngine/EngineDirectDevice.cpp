@@ -377,8 +377,8 @@ void EngineDirectDevice::TestRenderTriangle()
 	Context->RSSetViewports(1, &ViewPort);
 	Context->PSSetShader(PixelShader, nullptr, 0);
 
-	Context->PSSetShaderResources(0, );
-	Context->PSSetSamplers(0, );
+	//Context->PSSetShaderResources(0, );
+	//Context->PSSetSamplers(0, );
 
 	Context->OMSetRenderTargets(1, &BackBufferRTV, nullptr);
 	Context->DrawIndexed(IndexCount, 0, 0);
