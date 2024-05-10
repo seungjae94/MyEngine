@@ -348,7 +348,7 @@ void EngineDirectDevice::CreatePSResources()
 	// 샘플러 스테이트 생성
 	{
 		D3D11_SAMPLER_DESC Desc = {};
-		Desc.AddressW = Desc.AddressV = Desc.AddressU = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+		Desc.AddressU = Desc.AddressV = Desc.AddressW = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
 		Desc.Filter = D3D11_FILTER::D3D11_FILTER_MIN_MAG_MIP_POINT;
 		Desc.MipLODBias = 0.0f;
 		Desc.MaxAnisotropy = 1;
