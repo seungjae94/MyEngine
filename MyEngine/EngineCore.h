@@ -29,6 +29,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, \
 class EngineCoreStarter;
 class EngineTime;
 class EngineDirectDevice;
+class EngineDirectResource;
 
 class UserCore
 {
@@ -39,6 +40,7 @@ public:
 class EngineCore
 {
 	friend EngineCoreStarter;
+	friend EngineDirectResource;
 public:
 	template <typename LevelType>
 	static void CreateLevel(std::string_view _LevelName)

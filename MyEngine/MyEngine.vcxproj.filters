@@ -31,8 +31,23 @@
     <Filter Include="_External\DirectXTex\Debug">
       <UniqueIdentifier>{42995bd1-8656-48d9-a3b3-6b3aa79dc1e7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Direct\Resources">
+    <Filter Include="Component">
+      <UniqueIdentifier>{b2bebca4-f89c-45c0-b1c2-8cf8a44d8c7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
       <UniqueIdentifier>{45077257-5ed0-4233-866a-98811da1940c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Buffer">
+      <UniqueIdentifier>{73a4d9e9-276a-4bad-822d-0fac227c01ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\ShaderResource">
+      <UniqueIdentifier>{629620e8-ba4c-473d-96d2-f49fbe5c4e91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Shader">
+      <UniqueIdentifier>{bf1d984f-48ca-4c1f-adc8-219ab35a0a17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\State">
+      <UniqueIdentifier>{4782b38a-ec21-4d98-b15b-89418e3dcb25}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -57,11 +72,53 @@
     <ClInclude Include="EngineDirectDevice.h">
       <Filter>Direct</Filter>
     </ClInclude>
-    <ClInclude Include="EngineVertex.h">
-      <Filter>Direct\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="External\DirectXTex\Header\DirectXTex.h">
       <Filter>_External\DirectXTex\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineBuffer.h">
+      <Filter>Resource\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineVertex.h">
+      <Filter>Resource\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineVertexBuffer.h">
+      <Filter>Resource\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineIndexBuffer.h">
+      <Filter>Resource\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineInputLayout.h">
+      <Filter>Resource\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineResource.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDirectResource.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineShader.h">
+      <Filter>Resource\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineVertexShader.h">
+      <Filter>Resource\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="EnginePixelShader.h">
+      <Filter>Resource\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineRasterizerState.h">
+      <Filter>Resource\State</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineBlendState.h">
+      <Filter>Resource\State</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineTexture.h">
+      <Filter>Resource\ShaderResource</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSamplerState.h">
+      <Filter>Resource\ShaderResource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -86,8 +143,50 @@
     <ClCompile Include="EngineDirectDevice.cpp">
       <Filter>Direct</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineBuffer.cpp">
+      <Filter>Resource\Buffer</Filter>
+    </ClCompile>
     <ClCompile Include="EngineVertex.cpp">
-      <Filter>Direct\Resources</Filter>
+      <Filter>Resource\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineVertexBuffer.cpp">
+      <Filter>Resource\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineIndexBuffer.cpp">
+      <Filter>Resource\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineInputLayout.cpp">
+      <Filter>Resource\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineResource.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineDirectResource.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineShader.cpp">
+      <Filter>Resource\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineVertexShader.cpp">
+      <Filter>Resource\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="EnginePixelShader.cpp">
+      <Filter>Resource\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineRasterizerState.cpp">
+      <Filter>Resource\State</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineBlendState.cpp">
+      <Filter>Resource\State</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineTexture.cpp">
+      <Filter>Resource\ShaderResource</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSamplerState.cpp">
+      <Filter>Resource\ShaderResource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

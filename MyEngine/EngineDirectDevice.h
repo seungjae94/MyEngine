@@ -1,10 +1,13 @@
 #pragma once
 
 class EngineCore;
+class EngineDirectResource;
+class EngineInputLayout;
 
 class EngineDirectDevice
 {
 	friend EngineCore;
+	friend EngineDirectResource;
 public:
 	EngineDirectDevice();
 	~EngineDirectDevice();
@@ -36,33 +39,15 @@ private:
 
 private:
 	// IA 府家胶
-	ID3D11Buffer* VertexBuffer = nullptr;
-	ID3D11Buffer* IndexBuffer = nullptr;
-	ID3D11InputLayout* InputLayout = nullptr;
-	UINT VertexSize = 0;
-	UINT VertexOffset = 0;
-	UINT IndexCount = 0;
-	UINT IndexOffset = 0;
-
-	// VS 府家胶
-	ID3DBlob* VSCodeBlob = nullptr;
-	ID3DBlob* VSErrorBlob = nullptr;
-	ID3D11VertexShader* VertexShader = nullptr;
+	EngineInputLayout* CharacterInputLayout = nullptr;
+	EngineInputLayout* MonsterInputLayout = nullptr;
 
 	// RS 府家胶
-	ID3D11RasterizerState* RasterizerState = nullptr;
-	D3D11_VIEWPORT ViewPort;
+	D3D11_VIEWPORT ViewPort = {};
 
 	// PS 府家胶
-	ID3DBlob* PSCodeBlob = nullptr;
-	ID3DBlob* PSErrorBlob = nullptr;
-	ID3D11PixelShader* PixelShader = nullptr;
 	ID3D11ShaderResourceView* CharacterTextureSRV = nullptr;
 	ID3D11ShaderResourceView* MonsterTextureSRV = nullptr;
-	ID3D11SamplerState* SamplerState = nullptr;
-
-	// OM 府家胶
-	ID3D11BlendState* BlendState = nullptr;
 
 	void TestRenderCharacter();
 	void TestRenderMonster();
