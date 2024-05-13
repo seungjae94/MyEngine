@@ -123,6 +123,9 @@
     <ClInclude Include="Component.h">
       <Filter>Component</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineCore.cpp">
@@ -193,6 +196,9 @@
     </ClCompile>
     <ClCompile Include="Component.cpp">
       <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

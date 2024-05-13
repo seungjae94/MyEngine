@@ -4,6 +4,7 @@ class EngineCore;
 class EngineDirectResource;
 class Level;
 class Renderer;
+class Camera;
 
 class EngineDirectDevice
 {
@@ -11,6 +12,7 @@ class EngineDirectDevice
 	friend EngineDirectResource;
 	friend Level;
 	friend Renderer;
+	friend Camera;
 public:
 	EngineDirectDevice();
 	~EngineDirectDevice();

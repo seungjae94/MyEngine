@@ -167,6 +167,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Component.h">
       <SubType>
       </SubType>
@@ -259,6 +263,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
       <SubType>
       </SubType>
     </ClCompile>

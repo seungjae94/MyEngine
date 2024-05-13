@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Level.h"
+#include "Camera.h"
 #include "Actor.h"
 #include "Renderer.h"
 #include "EngineCore.h"
@@ -7,13 +8,7 @@
 
 Level::Level()
 {
-	// 뷰포트 초기화
-	ViewPort.Width = 1280;
-	ViewPort.Height = 720;
-	ViewPort.TopLeftX = 0;
-	ViewPort.TopLeftY = 0;
-	ViewPort.MinDepth = 0;
-	ViewPort.MaxDepth = 1;
+	MainCamera = std::make_shared<Camera>();
 }
 
 Level::~Level()
@@ -54,7 +49,7 @@ void Level::Tick(float _DeltaTime)
 
 void Level::Render()
 {
-	EngineCore::DirectDevice.Context->RSSetViewports(1, &ViewPort);
+	MainCamera->SetViewPortToPipeline();
 	EngineCore::DirectDevice.SetBackBufferRenderTargets();
 
 	for (std::pair<const int, std::list<std::shared_ptr<Renderer>>>& OrderRendererListPair : Renderers)

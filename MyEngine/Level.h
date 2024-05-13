@@ -1,6 +1,7 @@
 #pragma once
 
 class EngineCore;
+class Camera;
 class Actor;
 class Renderer;
 
@@ -43,7 +44,8 @@ protected:
 	virtual void LevelStart(Level* _PrevLevel);
 	virtual void LevelEnd(Level* _NextLevel);
 private:
-	D3D11_VIEWPORT ViewPort = {};
+	std::shared_ptr<Camera> MainCamera = nullptr;
+
 	std::map<int, std::list<std::shared_ptr<Actor>>> Actors;
 	std::map<int, std::list<std::shared_ptr<Renderer>>> Renderers;
 };
