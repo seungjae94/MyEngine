@@ -2,9 +2,11 @@
 #include "EngineResource.h"
 #include "EngineDirectResource.h"
 
+class Renderer;
+
 class EngineSamplerState : public EngineResource<EngineSamplerState>, public EngineDirectResource
 {
-	friend EngineDirectDevice;
+	friend Renderer;
 public:
 	// constructor destructor
 	EngineSamplerState();

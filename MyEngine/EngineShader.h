@@ -1,6 +1,12 @@
 #pragma once
 #include "EngineDirectResource.h"
 
+enum class ShaderType
+{
+	VertexShader,
+	PixelShader,
+};
+
 class EngineShader : public EngineDirectResource
 {
 public:

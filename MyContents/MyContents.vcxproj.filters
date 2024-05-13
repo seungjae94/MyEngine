@@ -10,6 +10,12 @@
     <ClInclude Include="TestLevel.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="TestCharacter.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="TestMonster.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -19,6 +25,12 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="TestLevel.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCharacter.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="TestMonster.cpp">
       <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>

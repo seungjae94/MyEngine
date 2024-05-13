@@ -1,11 +1,12 @@
 #pragma once
 #include "EngineBuffer.h"
 
+class Renderer;
 class EngineInputLayout;
 
 class EngineVertexBuffer : public EngineResource<EngineVertexBuffer>, public EngineBuffer
 {
-    friend EngineDirectDevice;
+    friend Renderer;
     friend EngineInputLayout;
 public:
     // constructor destructor

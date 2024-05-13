@@ -2,9 +2,11 @@
 #include "EngineResource.h"
 #include "EngineShader.h"
 
+class Renderer;
+
 class EnginePixelShader : public EngineResource<EnginePixelShader>, public EngineShader
 {
-	friend EngineDirectDevice;
+	friend Renderer;
 public:
 	// constructor destructor
 	EnginePixelShader();

@@ -1,5 +1,7 @@
 #include "PreCompile.h"
 #include "TestLevel.h"
+#include "TestCharacter.h"
+#include "TestMonster.h"
 
 TestLevel::TestLevel()
 {
@@ -13,7 +15,8 @@ void TestLevel::BeginPlay()
 {
 	Level::BeginPlay();
 
-	int a = 0;
+	TestCharacter* Character = SpawnActor<TestCharacter>(0);
+	TestMonster* Monster = SpawnActor<TestMonster>(0);
 }
 
 void TestLevel::Tick(float _DeltaTime)

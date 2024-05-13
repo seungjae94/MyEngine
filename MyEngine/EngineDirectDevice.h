@@ -2,12 +2,15 @@
 
 class EngineCore;
 class EngineDirectResource;
-class EngineInputLayout;
+class Level;
+class Renderer;
 
 class EngineDirectDevice
 {
 	friend EngineCore;
 	friend EngineDirectResource;
+	friend Level;
+	friend Renderer;
 public:
 	EngineDirectDevice();
 	~EngineDirectDevice();
@@ -35,21 +38,8 @@ private:
 	void CreateInputLayouts();
 
 	void ClearBackBuffer();
+	void SetBackBufferRenderTargets();
+	void DrawIndexed(UINT _IndexBufferCount);
 	void Present();
-
-private:
-	// IA 府家胶
-	EngineInputLayout* CharacterInputLayout = nullptr;
-	EngineInputLayout* MonsterInputLayout = nullptr;
-
-	// RS 府家胶
-	D3D11_VIEWPORT ViewPort = {};
-
-	// PS 府家胶
-	ID3D11ShaderResourceView* CharacterTextureSRV = nullptr;
-	ID3D11ShaderResourceView* MonsterTextureSRV = nullptr;
-
-	void TestRenderCharacter();
-	void TestRenderMonster();
 };
 

@@ -2,10 +2,13 @@
 
 class EngineCore;
 class Actor;
+class Renderer;
 
 class Level
 {
 	friend EngineCore;
+	friend Actor;
+	friend Renderer;
 public:
 	Level();
 	~Level();
@@ -32,12 +35,15 @@ public:
 		Actors[_Order].push_back(AsActor);
 		return NewActor.get();
 	}
-	
+
 protected:
 	virtual void BeginPlay();
 	virtual void Tick(float _DeltaTime);
+	virtual void Render();
 	virtual void LevelStart(Level* _PrevLevel);
 	virtual void LevelEnd(Level* _NextLevel);
 private:
+	D3D11_VIEWPORT ViewPort = {};
 	std::map<int, std::list<std::shared_ptr<Actor>>> Actors;
+	std::map<int, std::list<std::shared_ptr<Renderer>>> Renderers;
 };

@@ -42,6 +42,8 @@ class EngineCore
 	friend EngineCoreStarter;
 	friend EngineDirectResource;
 public:
+	static EngineDirectDevice DirectDevice;
+
 	template <typename LevelType>
 	static void CreateLevel(std::string_view _LevelName)
 	{
@@ -58,7 +60,6 @@ private:
 	static std::shared_ptr<Level> CurLevel;
 	static std::shared_ptr<Level> NextLevel;
 	static EngineTime MainTimer;
-	static EngineDirectDevice DirectDevice;
 
 	static void EngineStart(HINSTANCE _hInstance);
 	static void EngineUpdate();

@@ -6,6 +6,7 @@
 #include "EngineVertexShader.h"
 #include "EngineRasterizerState.h"
 #include "EnginePixelShader.h"
+#include "EngineTexture.h"
 #include "EngineSamplerState.h"
 #include "EngineBlendState.h"
 #include "EngineInputLayout.h"
@@ -20,8 +21,6 @@ EngineDirectDevice::~EngineDirectDevice()
     Context->Release();
     SwapChain->Release();
     BackBufferRTV->Release();
-    CharacterTextureSRV->Release();
-    MonsterTextureSRV->Release();
 }
 
 void EngineDirectDevice::Init(HWND _hWnd)
@@ -157,16 +156,6 @@ void EngineDirectDevice::CreateRSResources()
 
         EngineRasterizerState::Create("Default", RasterizerDesc);
     }
-
-    {
-        // 뷰포트 초기화
-        ViewPort.Width = 1280;
-        ViewPort.Height = 720;
-        ViewPort.TopLeftX = 0;
-        ViewPort.TopLeftY = 0;
-        ViewPort.MinDepth = 0;
-        ViewPort.MaxDepth = 1;
-    }
 }
 
 void EngineDirectDevice::CreatePSResources()
@@ -194,47 +183,7 @@ void EngineDirectDevice::CreatePSResources()
 
         for (EnginePath& ImagePath : ImagePaths)
         {
-            std::string ImagePathString = ImagePath.ToString();
-            DirectX::ScratchImage Image;
-            DirectX::TexMetadata Metadata;
-
-            HRESULT Result = DirectX::LoadFromWICFile(EngineString::StringToWString(ImagePathString).c_str(), DirectX::WIC_FLAGS_NONE, &Metadata, Image);
-
-            if (S_OK != Result)
-            {
-                MessageBoxAssert("이미지 로드에 실패했습니다.");
-                return;
-            };
-
-            ID3D11ShaderResourceView* TextureSRV = nullptr;
-            Result = DirectX::CreateShaderResourceView(
-                Device,
-                Image.GetImages(),
-                Image.GetImageCount(),
-                Image.GetMetadata(),
-                &TextureSRV
-            );
-
-            if (S_OK != Result)
-            {
-                MessageBoxAssert("텍스쳐 셰이더 리소스 뷰 생성에 실패했습니다.");
-                return;
-            }
-
-
-            if ("TestCharacter.png" == ImagePath.GetFilename())
-            {
-                CharacterTextureSRV = TextureSRV;
-            }
-            else if ("TestMonster.png" == ImagePath.GetFilename())
-            {
-                MonsterTextureSRV = TextureSRV;
-            }
-            else
-            {
-                TextureSRV->Release();
-                continue;
-            }
+            EngineTexture::Create(ImagePath);
         }
     }
 
@@ -289,6 +238,16 @@ void EngineDirectDevice::ClearBackBuffer()
     Context->ClearRenderTargetView(BackBufferRTV, ClearColor);
 }
 
+void EngineDirectDevice::SetBackBufferRenderTargets()
+{
+    Context->OMSetRenderTargets(1, &BackBufferRTV, nullptr);
+}
+
+void EngineDirectDevice::DrawIndexed(UINT _IndexBufferCount)
+{
+    Context->DrawIndexed(_IndexBufferCount, 0, 0);
+}
+
 void EngineDirectDevice::Present()
 {
     HRESULT Result = SwapChain->Present(0, 0);
@@ -296,62 +255,4 @@ void EngineDirectDevice::Present()
     {
         MessageBoxAssert("프레젠트에 실패했습니다.");
     }
-}
-
-void EngineDirectDevice::TestRenderCharacter()
-{
-    EngineVertexBuffer* VertexBuffer = EngineVertexBuffer::Find("Rect");
-    EngineIndexBuffer* IndexBuffer = EngineIndexBuffer::Find("Rect");
-    EngineVertexShader* VertexShader = EngineVertexShader::Find("ImageShader.fx");
-    EngineRasterizerState* RasterizerState = EngineRasterizerState::Find("Default");
-    EnginePixelShader* PixelShader = EnginePixelShader::Find("ImageShader.fx");
-    EngineSamplerState* SamplerState = EngineSamplerState::Find("Point");
-    EngineBlendState* BlendState = EngineBlendState::Find("Default");
-
-    if (nullptr == CharacterInputLayout)
-    {
-        CharacterInputLayout = EngineInputLayout::Create(VertexBuffer, VertexShader);
-    }
-
-    VertexBuffer->SetToPipeline();
-    IndexBuffer->SetToPipeline();
-    CharacterInputLayout->SetToPipeline();
-    VertexShader->SetToPipeline();
-    RasterizerState->SetToPipeline();
-    Context->RSSetViewports(1, &ViewPort);
-    PixelShader->SetToPipeline();
-    Context->PSSetShaderResources(0, 1, &CharacterTextureSRV);
-    SamplerState->SetToPipeline();
-    BlendState->SetToPipeline();
-    Context->OMSetRenderTargets(1, &BackBufferRTV, nullptr);
-    Context->DrawIndexed(IndexBuffer->GetCount(), 0, 0);
-}
-
-void EngineDirectDevice::TestRenderMonster()
-{
-    EngineVertexBuffer* VertexBuffer = EngineVertexBuffer::Find("Rect");
-    EngineIndexBuffer* IndexBuffer = EngineIndexBuffer::Find("Rect");
-    EngineVertexShader* VertexShader = EngineVertexShader::Find("ImageShader.fx");
-    EngineRasterizerState* RasterizerState = EngineRasterizerState::Find("Default");
-    EnginePixelShader* PixelShader = EnginePixelShader::Find("ImageShader.fx");
-    EngineSamplerState* SamplerState = EngineSamplerState::Find("Point");
-    EngineBlendState* BlendState = EngineBlendState::Find("Default");
-
-    if (nullptr == MonsterInputLayout)
-    {
-        MonsterInputLayout = EngineInputLayout::Create(VertexBuffer, VertexShader);
-    }
-
-    VertexBuffer->SetToPipeline();
-    IndexBuffer->SetToPipeline();
-    MonsterInputLayout->SetToPipeline();
-    VertexShader->SetToPipeline();
-    RasterizerState->SetToPipeline();
-    Context->RSSetViewports(1, &ViewPort);
-    PixelShader->SetToPipeline();
-    Context->PSSetShaderResources(0, 1, &MonsterTextureSRV);
-    SamplerState->SetToPipeline();
-    BlendState->SetToPipeline();
-    Context->OMSetRenderTargets(1, &BackBufferRTV, nullptr);
-    Context->DrawIndexed(IndexBuffer->GetCount(), 0, 0);
 }

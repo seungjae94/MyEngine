@@ -120,6 +120,9 @@
     <ClInclude Include="EngineSamplerState.h">
       <Filter>Resource\ShaderResource</Filter>
     </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineCore.cpp">
@@ -187,6 +190,9 @@
     </ClCompile>
     <ClCompile Include="EngineSamplerState.cpp">
       <Filter>Resource\ShaderResource</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -24,6 +24,11 @@ void Actor::SetActive(bool _Activeness)
 	Activeness = _Activeness;
 }
 
+void Actor::BeginPlay()
+{
+
+}
+
 void Actor::Tick(float _DeltaTime)
 {
 }
